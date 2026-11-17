@@ -2,7 +2,7 @@
 
 ## 1. Acessando o sistema
 
-1. Abra o link do sistema no navegador (computador ou celular);
+1. Abra https://agendafacil-pit2.onrender.com no navegador (computador ou celular). A primeira abertura pode demorar uns 50 segundos;
 2. Entre com o usuário de demonstração:
    - **E-mail:** `admin@agendafacil.com`
    - **Senha:** `agenda123`
