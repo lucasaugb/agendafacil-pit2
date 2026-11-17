@@ -1,9 +1,15 @@
 """AgendaFácil - fábrica da aplicação Flask (padrão MVC)."""
 import os
+import time
 
 from flask import Flask, render_template
 
 from app import database
+
+# Usa sempre o horário de Brasília, mesmo em servidores no exterior (Render = UTC)
+os.environ.setdefault("TZ", "America/Sao_Paulo")
+if hasattr(time, "tzset"):
+    time.tzset()
 
 
 def create_app(test_config=None):
