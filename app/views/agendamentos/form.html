@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block conteudo %}
+<h1>{{ titulo }}</h1>
+{% if not clientes or not servicos %}
+  <p class="alerta alerta-aviso">
+    Para agendar é preciso ter pelo menos um <a href="{{ url_for('clientes.novo') }}">cliente</a>
+    e um <a href="{{ url_for('servicos.novo') }}">serviço ativo</a> cadastrados.
+  </p>
+{% endif %}
+<form method="post" class="form caixa" data-validar novalidate>
+  <label>Cliente *
+    <select name="cliente_id" required>
+      <option value="">Selecione...</option>
+      {% for c in clientes %}
+        <option value="{{ c.id }}" {{ 'selected' if (ag.cliente_id|string) == (c.id|string) }}>{{ c.nome }} — {{ c.telefone }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Serviço *
+    <select name="servico_id" required>
+      <option value="">Selecione...</option>
+      {% for s in servicos %}
+        <option value="{{ s.id }}" {{ 'selected' if (ag.servico_id|string) == (s.id|string) }}>{{ s.nome }} ({{ s.duracao_min }} min · {{ s.preco | moeda }})</option>
+      {% endfor %}
+    </select>
+  </label>
+  <div class="linha">
+    <label>Data *
+      <input type="date" name="data" value="{{ ag.data or '' }}" required data-hoje-minimo>
+    </label>
+    <label>Hora *
+      <input type="time" name="hora" value="{{ ag.hora or '' }}" required min="08:00" max="20:00" step="300">
+    </label>
+  </div>
+  <label>Observações
+    <textarea name="observacoes" rows="2">{{ ag.observacoes or '' }}</textarea>
+  </label>
+  <p class="dica">Funcionamento: 08h às 20h. O sistema não deixa marcar dois atendimentos no mesmo horário.</p>
+  <div class="botoes">
+    <a class="btn" href="{{ url_for('agendamentos.listar') }}">Cancelar</a>
+    <button class="btn btn-primario" type="submit">Salvar</button>
+  </div>
+</form>
+{% endblock %}

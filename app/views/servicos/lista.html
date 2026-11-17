@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titulo %}Serviços{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Serviços</h1>
+  <a class="btn btn-primario" href="{{ url_for('servicos.novo') }}">+ Novo serviço</a>
+</div>
+
+{% if servicos %}
+<div class="tabela-wrap">
+<table class="tabela">
+  <thead><tr><th>Serviço</th><th>Preço</th><th>Duração</th><th>Situação</th><th class="acoes">Ações</th></tr></thead>
+  <tbody>
+  {% for s in servicos %}
+    <tr class="{{ '' if s.ativo else 'inativo' }}">
+      <td data-label="Serviço"><strong>{{ s.nome }}</strong><br><small>{{ s.descricao or '' }}</small></td>
+      <td data-label="Preço">{{ s.preco | moeda }}</td>
+      <td data-label="Duração">{{ s.duracao_min }} min</td>
+      <td data-label="Situação"><span class="selo {{ 'selo-ok' if s.ativo else 'selo-off' }}">{{ 'Ativo' if s.ativo else 'Inativo' }}</span></td>
+      <td class="acoes">
+        <a class="btn btn-pequeno" href="{{ url_for('servicos.editar', servico_id=s.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('servicos.alternar', servico_id=s.id) }}">
+          <button class="btn btn-pequeno" type="submit">{{ 'Desativar' if s.ativo else 'Reativar' }}</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="vazio">Nenhum serviço cadastrado.</p>
+{% endif %}
+{% endblock %}

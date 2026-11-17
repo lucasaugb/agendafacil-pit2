@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titulo %}Clientes{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Clientes</h1>
+  <a class="btn btn-primario" href="{{ url_for('clientes.novo') }}">+ Novo cliente</a>
+</div>
+
+<form class="filtros" method="get">
+  <input type="search" name="busca" value="{{ busca }}" placeholder="Buscar por nome ou telefone" aria-label="Buscar">
+  <button class="btn" type="submit">Buscar</button>
+  {% if busca %}<a class="btn btn-link" href="{{ url_for('clientes.listar') }}">Limpar</a>{% endif %}
+</form>
+
+{% if clientes %}
+<div class="tabela-wrap">
+<table class="tabela">
+  <thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Observações</th><th class="acoes">Ações</th></tr></thead>
+  <tbody>
+  {% for c in clientes %}
+    <tr>
+      <td data-label="Nome">{{ c.nome }}</td>
+      <td data-label="Telefone">{{ c.telefone }}</td>
+      <td data-label="E-mail">{{ c.email or '—' }}</td>
+      <td data-label="Obs.">{{ c.observacoes or '—' }}</td>
+      <td class="acoes">
+        <a class="btn btn-pequeno" href="{{ url_for('clientes.editar', cliente_id=c.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('clientes.excluir', cliente_id=c.id) }}" data-confirmar="Excluir o cliente {{ c.nome }}? Esta ação não pode ser desfeita.">
+          <button class="btn btn-pequeno btn-perigo" type="submit">Excluir</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="vazio">{% if busca %}Nenhum cliente encontrado para "{{ busca }}".{% else %}Nenhum cliente cadastrado ainda.{% endif %}</p>
+{% endif %}
+{% endblock %}

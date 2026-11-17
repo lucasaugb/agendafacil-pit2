@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block titulo %}Início{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Olá, {{ g.usuario.nome }} 👋</h1>
+  <a class="btn btn-primario" href="{{ url_for('agendamentos.novo') }}">+ Novo agendamento</a>
+</div>
+
+<section class="cards">
+  <div class="card"><span class="card-num">{{ resumo.hoje }}</span><span class="card-txt">Atendimentos hoje</span></div>
+  <div class="card"><span class="card-num">{{ resumo.proximos }}</span><span class="card-txt">Próximos agendamentos</span></div>
+  <div class="card"><span class="card-num">{{ resumo.clientes }}</span><span class="card-txt">Clientes cadastrados</span></div>
+  <div class="card"><span class="card-num">{{ resumo.faturamento_mes | moeda }}</span><span class="card-txt">Faturado no mês</span></div>
+</section>
+
+<h2>Agenda de hoje</h2>
+{% if agenda %}
+  {% include "agendamentos/_tabela.html" with context %}
+{% else %}
+  <p class="vazio">Nenhum agendamento para hoje. <a href="{{ url_for('agendamentos.novo') }}">Criar um agora</a>.</p>
+{% endif %}
+{% endblock %}

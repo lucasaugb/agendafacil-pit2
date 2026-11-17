@@ -1,0 +1,33 @@
+<div class="tabela-wrap">
+<table class="tabela">
+  <thead><tr><th>Data/Hora</th><th>Cliente</th><th>Serviço</th><th>Valor</th><th>Status</th><th class="acoes">Ações</th></tr></thead>
+  <tbody>
+  {% for a in (agendamentos if agendamentos is defined else agenda) %}
+    <tr>
+      <td data-label="Data/Hora"><strong>{{ a.data_hora | data_br }}</strong><br><small>{{ a.duracao_min }} min</small></td>
+      <td data-label="Cliente">{{ a.cliente_nome }}<br><small>{{ a.cliente_telefone }}</small></td>
+      <td data-label="Serviço">{{ a.servico_nome }}</td>
+      <td data-label="Valor">{{ a.preco | moeda }}</td>
+      <td data-label="Status"><span class="selo selo-{{ a.status }}">{{ {'agendado':'Agendado','concluido':'Concluído','cancelado':'Cancelado'}[a.status] }}</span></td>
+      <td class="acoes">
+        {% if a.status == 'agendado' %}
+          <form method="post" action="{{ url_for('agendamentos.status', ag_id=a.id, novo_status='concluido') }}">
+            <button class="btn btn-pequeno btn-ok" type="submit">Concluir</button>
+          </form>
+          <a class="btn btn-pequeno" href="{{ url_for('agendamentos.editar', ag_id=a.id) }}">Editar</a>
+          <form method="post" action="{{ url_for('agendamentos.status', ag_id=a.id, novo_status='cancelado') }}" data-confirmar="Cancelar o agendamento de {{ a.cliente_nome }}?">
+            <button class="btn btn-pequeno btn-perigo" type="submit">Cancelar</button>
+          </form>
+        {% elif a.status == 'cancelado' %}
+          <form method="post" action="{{ url_for('agendamentos.status', ag_id=a.id, novo_status='agendado') }}">
+            <button class="btn btn-pequeno" type="submit">Reabrir</button>
+          </form>
+        {% else %}
+          <small>—</small>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
