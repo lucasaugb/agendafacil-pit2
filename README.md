@@ -42,7 +42,7 @@ python -m pytest -v
 ## Links
 - 📁 **Repositório:** https://github.com/lucasaugb/agendafacil-pit2
 - 🌐 **Sistema online:** https://agendafacil-pit2.onrender.com  _(plano grátis: se ficar parado, a 1ª abertura pode levar ~50s)_
-- 🎥 **Vídeo de apresentação:** _(adicionar)_
+- 🎥 **Vídeo de apresentação:** https://drive.google.com/drive/folders/1epgQnanZKtGuZBqbyuMgnS-EXWGQ1XgW?usp=sharing
 
 ## Documentação
 | Situação | Conteúdo |
